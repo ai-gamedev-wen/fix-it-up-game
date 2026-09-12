@@ -16,227 +16,91 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --plaster:#EFE7DA;
-    --plaster-dark:#E2D6C2;
-    --sage:#4A5A45;
-    --sage-dark:#38452F;
-    --oak:#C89660;
-    --blush:#E3A9A0;
-    --ink:#3A362E;
-    --paper:#FBF7EF;
-    --ok:#6E8F5C;
-    --bad:#B5654E;
+    --plaster:#EFE7DA; --plaster-dark:#E2D6C2;
+    --sage:#4A5A45; --sage-dark:#38452F;
+    --oak:#C89660; --blush:#E3A9A0;
+    --ink:#3A362E; --paper:#FBF7EF;
+    --ok:#6E8F5C; --bad:#B5654E;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;height:100%;}
-  body{
-    font-family:'Nunito',sans-serif;
-    background:
-      radial-gradient(circle at 15% 0%, #F5EEE1 0%, transparent 55%),
-      var(--plaster);
-    color:var(--ink);
-    display:flex;
-    justify-content:center;
-    min-height:100vh;
-  }
-  #app{
-    width:100%;
-    max-width:460px;
-    min-height:100vh;
-    position:relative;
-    background:var(--plaster);
-    overflow:hidden;
-    box-shadow:0 0 40px rgba(0,0,0,0.08);
-  }
+  body{font-family:'Nunito',sans-serif;background:radial-gradient(circle at 15% 0%, #F5EEE1 0%, transparent 55%),var(--plaster);color:var(--ink);display:flex;justify-content:center;min-height:100vh;}
+  #app{width:100%;max-width:460px;min-height:100vh;position:relative;background:var(--plaster);overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,0.08);}
   .screen{display:none;flex-direction:column;min-height:100vh;padding:18px 16px 28px;}
   .screen.active{display:flex;}
-
   h1,h2,h3{font-family:'Fredoka',sans-serif;margin:0;color:var(--sage-dark);}
-  .topbar{
-    display:flex;align-items:center;justify-content:space-between;
-    margin-bottom:14px;
-  }
-  .topbar h1{font-size:20px;}
-  .stat-pill{
-    display:flex;align-items:center;gap:6px;
-    background:var(--paper);
-    border:1px solid var(--plaster-dark);
-    border-radius:999px;
-    padding:6px 12px;
-    font-weight:800;
-    font-size:14px;
-    color:var(--sage-dark);
-  }
-  .stat-row{display:flex;gap:8px;}
-
-  /* --- MAP SCREEN --- */
-  .house-wrap{
-    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px;}
+  .topbar h1{font-size:19px;}
+  .icon-btn{background:var(--paper);border:1px solid var(--plaster-dark);border-radius:999px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;}
+  .stat-pill{display:flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--plaster-dark);border-radius:999px;padding:6px 12px;font-weight:800;font-size:13px;color:var(--sage-dark);}
+  .stat-row{display:flex;gap:6px;}
+  .house-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
   .house-caption{text-align:center;margin-bottom:4px;}
-  .house-caption p{margin:4px 0 0;color:#6b6357;font-size:14px;}
-  .rooms-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    width:100%;
-  }
-  .room-card{
-    background:var(--paper);
-    border-radius:20px;
-    padding:14px 12px;
-    display:flex;flex-direction:column;align-items:center;gap:6px;
-    border:2px solid var(--plaster-dark);
-    position:relative;
-    cursor:pointer;
-    transition:transform .15s ease;
-  }
+  .house-caption p{margin:4px 0 0;color:#6b6357;font-size:13px;}
+  .rooms-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;}
+  .room-card{background:var(--paper);border-radius:20px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;border:2px solid var(--plaster-dark);position:relative;cursor:pointer;transition:transform .15s ease;}
   .room-card:active{transform:scale(0.96);}
   .room-card.locked{opacity:0.5;cursor:default;}
   .room-card .emoji{font-size:34px;}
   .room-card .name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;}
-  .room-card .stage{font-size:12px;color:#8a8072;}
-  .room-card .badge{
-    position:absolute;top:8px;right:8px;
-    background:var(--ok);color:white;
-    border-radius:999px;width:20px;height:20px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:12px;font-weight:800;
-  }
+  .room-card .stage{font-size:11px;color:#8a8072;}
+  .room-card .badge{position:absolute;top:8px;right:8px;background:var(--ok);color:white;border-radius:999px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;}
   .lock-icon{position:absolute;top:10px;right:10px;font-size:16px;}
-
-  /* --- LEVEL SELECT --- */
-  .level-list{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
-  .level-row{
-    background:var(--paper);
-    border:2px solid var(--plaster-dark);
-    border-radius:16px;
-    padding:12px 16px;
-    display:flex;align-items:center;justify-content:space-between;
-    cursor:pointer;
-  }
-  .level-row.locked{opacity:0.45;cursor:default;}
-  .level-row .lname{font-family:'Fredoka',sans-serif;font-weight:600;}
-  .level-row .lmeta{font-size:12px;color:#8a8072;}
-  .btn-back{
-    background:none;border:none;color:var(--sage-dark);
-    font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;
-    display:flex;align-items:center;gap:4px;cursor:pointer;padding:4px 0;
-    margin-bottom:6px;
-    align-self:flex-start;
-  }
-
-  /* --- GAME SCREEN --- */
-  .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-  .progress-wrap{margin:6px 0 14px;}
-  .progress-bar{
-    background:var(--plaster-dark);
-    height:14px;border-radius:999px;overflow:hidden;
-  }
-  .progress-fill{
-    height:100%;background:linear-gradient(90deg, var(--oak), var(--blush));
-    width:0%;transition:width .25s ease;
-  }
+  .level-list{display:flex;flex-direction:column;gap:9px;margin-top:10px;max-height:70vh;overflow-y:auto;}
+  .level-row{background:var(--paper);border:2px solid var(--plaster-dark);border-radius:16px;padding:11px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+  .level-row.locked{opacity:0.4;cursor:default;}
+  .level-row .lname{font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;}
+  .level-row .lmeta{font-size:11px;color:#8a8072;}
+  .btn-back{background:none;border:none;color:var(--sage-dark);font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;display:flex;align-items:center;gap:4px;cursor:pointer;padding:4px 0;margin-bottom:6px;align-self:flex-start;}
+  .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .progress-wrap{margin:6px 0 12px;}
+  .progress-bar{background:var(--plaster-dark);height:14px;border-radius:999px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--oak), var(--blush));width:0%;transition:width .25s ease;}
   .progress-labels{display:flex;justify-content:space-between;font-size:11px;color:#8a8072;margin-top:4px;}
-
-  #board{
-    display:grid;
-    gap:4px;
-    background:var(--plaster-dark);
-    padding:6px;
-    border-radius:16px;
-    margin:0 auto;
-    touch-action:none;
-  }
-  .tile{
-    display:flex;align-items:center;justify-content:center;
-    background:var(--paper);
-    border-radius:10px;
-    font-size:22px;
-    aspect-ratio:1/1;
-    cursor:pointer;
-    user-select:none;
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .tile.selected{
-    box-shadow:0 0 0 3px var(--blush) inset;
-    transform:scale(0.92);
-  }
+  #board{display:grid;gap:4px;background:var(--plaster-dark);padding:6px;border-radius:16px;margin:0 auto;touch-action:none;}
+  .tile{display:flex;align-items:center;justify-content:center;background:var(--paper);border-radius:12px;font-size:20px;aspect-ratio:1/1;cursor:pointer;user-select:none;transition:box-shadow .12s ease;position:relative;}
+  .tile.selected{box-shadow:0 0 0 3px var(--blush) inset;}
   .tile.matched{animation:pop .25s ease forwards;}
-  @keyframes pop{
-    0%{transform:scale(1);opacity:1;}
-    100%{transform:scale(0.2);opacity:0;}
-  }
-  .tile.dropping{animation:drop .18s ease;}
-  @keyframes drop{
-    0%{transform:translateY(-14px);opacity:0.4;}
-    100%{transform:translateY(0);opacity:1;}
-  }
-
-  /* --- MODAL --- */
-  .modal-overlay{
-    position:absolute;inset:0;
-    background:rgba(58,54,46,0.55);
-    display:none;align-items:center;justify-content:center;
-    padding:24px;
-    z-index:10;
-  }
+  @keyframes pop{0%{transform:scale(1);opacity:1;}100%{transform:scale(0.2);opacity:0;}}
+  .swap-arc-right{animation:arcRight .3s ease-in-out;}
+  .swap-arc-left{animation:arcLeft .3s ease-in-out;}
+  .swap-arc-down{animation:arcDown .3s ease-in-out;}
+  .swap-arc-up{animation:arcUp .3s ease-in-out;}
+  @keyframes arcRight{0%{transform:translate(0,0);}50%{transform:translate(50%,-55%);}100%{transform:translate(100%,0);}}
+  @keyframes arcLeft{0%{transform:translate(0,0);}50%{transform:translate(-50%,55%);}100%{transform:translate(-100%,0);}}
+  @keyframes arcDown{0%{transform:translate(0,0);}50%{transform:translate(55%,50%);}100%{transform:translate(0,100%);}}
+  @keyframes arcUp{0%{transform:translate(0,0);}50%{transform:translate(-55%,-50%);}100%{transform:translate(0,-100%);}}
+  .tile.locked-tile{filter:grayscale(0.6) brightness(0.85);}
+  .tile.locked-tile::after{content:'🔒';position:absolute;font-size:11px;top:-2px;right:-2px;}
+  .tile.bomb-tile::after{content:attr(data-timer);position:absolute;bottom:-3px;right:-3px;background:var(--bad);color:white;font-size:9px;font-weight:800;border-radius:999px;width:15px;height:15px;display:flex;align-items:center;justify-content:center;}
+  .modal-overlay{position:absolute;inset:0;background:rgba(58,54,46,0.55);display:none;align-items:center;justify-content:center;padding:24px;z-index:10;}
   .modal-overlay.active{display:flex;}
-  .modal{
-    background:var(--paper);
-    border-radius:22px;
-    padding:24px 20px;
-    width:100%;max-width:340px;
-    text-align:center;
-  }
+  .modal{background:var(--paper);border-radius:22px;padding:24px 20px;width:100%;max-width:340px;text-align:center;}
   .modal .big-emoji{font-size:44px;margin-bottom:6px;}
   .modal h2{margin-bottom:6px;}
   .modal p{color:#6b6357;font-size:14px;margin:4px 0 16px;}
-  .btn{
-    font-family:'Fredoka',sans-serif;font-weight:600;
-    border:none;border-radius:14px;
-    padding:13px 18px;
-    font-size:15px;
-    cursor:pointer;
-    width:100%;
-  }
+  .btn{font-family:'Fredoka',sans-serif;font-weight:600;border:none;border-radius:14px;padding:13px 18px;font-size:15px;cursor:pointer;width:100%;}
   .btn-primary{background:var(--sage);color:white;}
   .btn-primary:active{background:var(--sage-dark);}
   .btn-secondary{background:var(--plaster-dark);color:var(--ink);margin-top:8px;}
-
   .upgrade-options{display:flex;flex-direction:column;gap:10px;margin:6px 0 4px;}
-  .upgrade-opt{
-    display:flex;align-items:center;gap:12px;
-    background:var(--plaster);
-    border:2px solid var(--plaster-dark);
-    border-radius:14px;
-    padding:10px 12px;
-    text-align:left;
-    cursor:pointer;
-  }
-  .upgrade-opt:active{border-color:var(--oak);}
+  .upgrade-opt{display:flex;align-items:center;gap:12px;background:var(--plaster);border:2px solid var(--plaster-dark);border-radius:14px;padding:10px 12px;text-align:left;cursor:pointer;}
   .upgrade-opt .oe{font-size:26px;}
   .upgrade-opt .ot{font-weight:800;font-size:14px;}
-  .upgrade-opt .oc{font-size:12px;color:#8a8072;}
-
-  .toast{
-    position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
-    background:var(--sage-dark);color:white;
-    padding:10px 18px;border-radius:999px;
-    font-weight:700;font-size:13px;
-    opacity:0;pointer-events:none;
-    transition:opacity .2s ease, transform .2s ease;
-    z-index:20;
-  }
+  .toast{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:var(--sage-dark);color:white;padding:10px 18px;border-radius:999px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:20;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+  .profile-stats{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+  .stat-card{background:var(--paper);border:2px solid var(--plaster-dark);border-radius:16px;padding:16px;display:flex;justify-content:space-between;align-items:center;}
+  .stat-card .label{font-size:13px;color:#8a8072;}
+  .stat-card .value{font-family:'Fredoka',sans-serif;font-weight:700;font-size:20px;color:var(--sage-dark);}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- MAP SCREEN -->
   <div class="screen active" id="screen-map">
     <div class="topbar">
+      <button class="icon-btn" id="btn-profile">👤</button>
       <h1>🏡 Fix It Up</h1>
       <div class="stat-row">
         <div class="stat-pill">🪙 <span id="coin-count">0</span></div>
@@ -252,15 +116,25 @@
     </div>
   </div>
 
-  <!-- LEVEL SELECT SCREEN -->
+  <div class="screen" id="screen-profile">
+    <button class="btn-back" id="btn-back-map-from-profile">← Back</button>
+    <h2>👤 Your Progress</h2>
+    <div class="profile-stats">
+      <div class="stat-card"><span class="label">Levels cleared</span><span class="value" id="p-levels">0 / 100</span></div>
+      <div class="stat-card"><span class="label">Rooms renovated</span><span class="value" id="p-rooms">0 / 5</span></div>
+      <div class="stat-card"><span class="label">Coins</span><span class="value" id="p-coins">0</span></div>
+      <div class="stat-card"><span class="label">Lives</span><span class="value" id="p-lives">5</span></div>
+    </div>
+    <button class="btn btn-secondary" id="btn-reset-progress" style="margin-top:24px;">Reset all progress</button>
+  </div>
+
   <div class="screen" id="screen-levels">
     <button class="btn-back" id="btn-back-map">← Rooms</button>
     <h2 id="level-room-title">Kitchen</h2>
-    <p style="color:#8a8072;font-size:13px;margin:4px 0 0;">Clear every level to unlock the upgrade</p>
+    <p style="color:#8a8072;font-size:13px;margin:4px 0 0;">20 levels per room · gets harder as you go</p>
     <div class="level-list" id="level-list"></div>
   </div>
 
-  <!-- GAME SCREEN -->
   <div class="screen" id="screen-game">
     <button class="btn-back" id="btn-back-levels">← Levels</button>
     <div class="game-header">
@@ -274,40 +148,16 @@
     <div id="board"></div>
 
     <div class="modal-overlay" id="overlay-win">
-      <div class="modal">
-        <div class="big-emoji">🎉</div>
-        <h2>Level clear!</h2>
-        <p>You earned <strong><span id="win-coins">0</span> coins</strong></p>
-        <button class="btn btn-primary" id="btn-win-continue">Continue</button>
-      </div>
+      <div class="modal"><div class="big-emoji">🎉</div><h2>Level clear!</h2><p>You earned <strong><span id="win-coins">0</span> coins</strong></p><button class="btn btn-primary" id="btn-win-continue">Continue</button></div>
     </div>
-
     <div class="modal-overlay" id="overlay-lose">
-      <div class="modal">
-        <div class="big-emoji">😅</div>
-        <h2>Out of moves</h2>
-        <p>Lost a life. Give it another shot?</p>
-        <button class="btn btn-primary" id="btn-lose-retry">Retry (−1 ❤️)</button>
-        <button class="btn btn-secondary" id="btn-lose-back">Back to rooms</button>
-      </div>
+      <div class="modal"><div class="big-emoji">😅</div><h2 id="lose-title">Out of moves</h2><p id="lose-text">Lost a life. Give it another shot?</p><button class="btn btn-primary" id="btn-lose-retry">Retry (−1 ❤️)</button><button class="btn btn-secondary" id="btn-lose-back">Back to rooms</button></div>
     </div>
-
     <div class="modal-overlay" id="overlay-nolives">
-      <div class="modal">
-        <div class="big-emoji">💤</div>
-        <h2>No lives left</h2>
-        <p>In the full game, lives refill over time. For this demo, tap below to top up.</p>
-        <button class="btn btn-primary" id="btn-refill-lives">Refill lives (demo)</button>
-      </div>
+      <div class="modal"><div class="big-emoji">💤</div><h2>No lives left</h2><p>In the full game, lives refill over time. For this demo, tap below to top up.</p><button class="btn btn-primary" id="btn-refill-lives">Refill lives (demo)</button></div>
     </div>
-
     <div class="modal-overlay" id="overlay-upgrade">
-      <div class="modal">
-        <div class="big-emoji">✨</div>
-        <h2 id="upgrade-title">Room unlocked!</h2>
-        <p>Pick an upgrade to install</p>
-        <div class="upgrade-options" id="upgrade-options"></div>
-      </div>
+      <div class="modal"><div class="big-emoji">✨</div><h2 id="upgrade-title">Room unlocked!</h2><p>Pick an upgrade to install</p><div class="upgrade-options" id="upgrade-options"></div></div>
     </div>
   </div>
 
@@ -318,70 +168,69 @@
 /* ---------------- CONFIG ---------------- */
 const TILE_TYPES = ['🧱','🪵','🎨','🔩','🪟','🚪'];
 const GRID_SIZE = 7;
+const TOTAL_LEVELS = 100;
+const LEVELS_PER_ROOM = 20;
+const STORAGE_KEY = 'fixItUpSave_v2';
 
 const ROOMS = [
-  { key:'kitchen', name:'Kitchen', emoji:'🍳', levels:[
-      {target:24, moves:16}, {target:32, moves:15}, {target:42, moves:14}
-    ],
-    upgrades:[
-      {name:'Warm oak counters', emoji:'🪵', stage:1},
-      {name:'Sage cabinetry', emoji:'🎨', stage:1},
-      {name:'Tile backsplash', emoji:'🧱', stage:1}
-    ]
-  },
-  { key:'bathroom', name:'Bathroom', emoji:'🛁', levels:[
-      {target:26, moves:16}, {target:34, moves:15}, {target:44, moves:14}
-    ],
-    upgrades:[
-      {name:'Clawfoot tub', emoji:'🛁', stage:1},
-      {name:'Marble tile', emoji:'🧱', stage:1},
-      {name:'Brass fixtures', emoji:'🔩', stage:1}
-    ]
-  },
-  { key:'bedroom', name:'Bedroom', emoji:'🛏️', levels:[
-      {target:28, moves:16}, {target:36, moves:15}, {target:46, moves:14}
-    ],
-    upgrades:[
-      {name:'Linen bedding', emoji:'🪟', stage:1},
-      {name:'Reading nook', emoji:'📚', stage:1},
-      {name:'Wood floors', emoji:'🪵', stage:1}
-    ]
-  },
-  { key:'living', name:'Living Room', emoji:'🛋️', levels:[
-      {target:30, moves:17}, {target:38, moves:16}, {target:48, moves:15}
-    ],
-    upgrades:[
-      {name:'Statement sofa', emoji:'🛋️', stage:1},
-      {name:'Big windows', emoji:'🪟', stage:1},
-      {name:'Accent door', emoji:'🚪', stage:1}
-    ]
-  },
-  { key:'yard', name:'Yard', emoji:'🌿', levels:[
-      {target:32, moves:17}, {target:40, moves:16}, {target:50, moves:15}
-    ],
-    upgrades:[
-      {name:'Garden beds', emoji:'🌿', stage:1},
-      {name:'Stone path', emoji:'🧱', stage:1},
-      {name:'Patio lights', emoji:'✨', stage:1}
-    ]
-  }
+  { key:'kitchen', name:'Kitchen', emoji:'🍳',
+    upgrades:[{name:'Warm oak counters',emoji:'🪵'},{name:'Sage cabinetry',emoji:'🎨'},{name:'Tile backsplash',emoji:'🧱'}] },
+  { key:'bathroom', name:'Bathroom', emoji:'🛁',
+    upgrades:[{name:'Clawfoot tub',emoji:'🛁'},{name:'Marble tile',emoji:'🧱'},{name:'Brass fixtures',emoji:'🔩'}] },
+  { key:'bedroom', name:'Bedroom', emoji:'🛏️',
+    upgrades:[{name:'Linen bedding',emoji:'🪟'},{name:'Reading nook',emoji:'📚'},{name:'Wood floors',emoji:'🪵'}] },
+  { key:'living', name:'Living Room', emoji:'🛋️',
+    upgrades:[{name:'Statement sofa',emoji:'🛋️'},{name:'Big windows',emoji:'🪟'},{name:'Accent door',emoji:'🚪'}] },
+  { key:'yard', name:'Yard', emoji:'🌿',
+    upgrades:[{name:'Garden beds',emoji:'🌿'},{name:'Stone path',emoji:'🧱'},{name:'Patio lights',emoji:'✨'}] }
 ];
 
+/* Procedurally generate 100 levels with rising difficulty */
+function buildLevels(){
+  const levels = [];
+  for(let i=1;i<=TOTAL_LEVELS;i++){
+    const target = 20 + Math.floor(i*2.6);
+    const moves = Math.max(9, 18 - Math.floor(i/10));
+    const obstacles = i < 6 ? 0 : Math.min(8, Math.floor((i-6)/5)+1);
+    const bombs = i < 15 ? 0 : Math.min(3, Math.floor((i-15)/20)+1);
+    const bombTimer = Math.max(6, 14 - Math.floor(i/15));
+    const roomIdx = Math.floor((i-1)/LEVELS_PER_ROOM);
+    const levelInRoom = ((i-1)%LEVELS_PER_ROOM)+1;
+    levels.push({num:i, target, moves, obstacles, bombs, bombTimer, roomIdx, levelInRoom});
+  }
+  return levels;
+}
+const LEVELS = buildLevels();
+
 /* ---------------- STATE ---------------- */
-let state = {
-  coins: 0,
-  lives: 5,
-  progress: ROOMS.map(()=>({ levelsCleared:0, upgraded:false })),
-  currentRoomIdx: null,
-  currentLevelIdx: null
-};
+function defaultState(){
+  return { coins:0, lives:5, levelsCleared:0, roomUpgraded:[false,false,false,false,false] };
+}
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      return Object.assign(defaultState(), parsed);
+    }
+  }catch(e){}
+  return defaultState();
+}
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
 
 let grid = [];
+let lockedGrid = [];   // 0 = no lock, 1 = locked (needs one match hit to clear)
+let bombGrid = [];     // 0 = no bomb, N = countdown timer
 let selectedCell = null;
 let movesLeft = 0;
 let scoreCurrent = 0;
 let scoreTarget = 0;
 let boardLocked = false;
+let currentLevelNum = 1;
 
 /* ---------------- HELPERS ---------------- */
 function $(id){ return document.getElementById(id); }
@@ -390,9 +239,7 @@ function showScreen(id){
   $(id).classList.add('active');
 }
 function toast(msg){
-  const t = $('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 1600);
 }
 function updateStatPills(){
@@ -400,106 +247,129 @@ function updateStatPills(){
   $('life-count').textContent = state.lives;
 }
 
+/* ---------------- PROFILE ---------------- */
+function renderProfile(){
+  $('p-levels').textContent = `${state.levelsCleared} / ${TOTAL_LEVELS}`;
+  $('p-rooms').textContent = `${state.roomUpgraded.filter(Boolean).length} / 5`;
+  $('p-coins').textContent = state.coins;
+  $('p-lives').textContent = state.lives;
+}
+$('btn-profile').addEventListener('click', ()=>{ renderProfile(); showScreen('screen-profile'); });
+$('btn-back-map-from-profile').addEventListener('click', ()=>{ showScreen('screen-map'); renderMap(); });
+$('btn-reset-progress').addEventListener('click', ()=>{
+  if(confirm('Reset all progress? This cannot be undone.')){
+    state = defaultState();
+    saveState();
+    renderProfile();
+    toast('Progress reset');
+  }
+});
+
 /* ---------------- MAP SCREEN ---------------- */
 function renderMap(){
   updateStatPills();
   const wrap = $('rooms-grid');
   wrap.innerHTML = '';
   ROOMS.forEach((room, idx)=>{
-    const prog = state.progress[idx];
-    const prevDone = idx === 0 || state.progress[idx-1].upgraded;
+    const roomStart = idx*LEVELS_PER_ROOM + 1;
+    const roomEnd = roomStart + LEVELS_PER_ROOM - 1;
+    const clearedInRoom = Math.max(0, Math.min(LEVELS_PER_ROOM, state.levelsCleared - (roomStart-1)));
+    const prevDone = idx === 0 || state.roomUpgraded[idx-1];
     const card = document.createElement('div');
     card.className = 'room-card' + (prevDone ? '' : ' locked');
-    const stageLabel = prog.upgraded ? 'Renovated ✓' : `${prog.levelsCleared}/${room.levels.length} cleared`;
+    const stageLabel = state.roomUpgraded[idx] ? 'Renovated ✓' : `${clearedInRoom}/${LEVELS_PER_ROOM} cleared`;
     card.innerHTML = `
-      ${!prevDone ? '<div class="lock-icon">🔒</div>' : (prog.upgraded ? '<div class="badge">✓</div>' : '')}
+      ${!prevDone ? '<div class="lock-icon">🔒</div>' : (state.roomUpgraded[idx] ? '<div class="badge">✓</div>' : '')}
       <div class="emoji">${room.emoji}</div>
       <div class="name">${room.name}</div>
       <div class="stage">${stageLabel}</div>
     `;
-    if(prevDone){
-      card.addEventListener('click', ()=> openRoom(idx));
-    }
+    if(prevDone) card.addEventListener('click', ()=> openRoom(idx));
     wrap.appendChild(card);
   });
 }
 
 function openRoom(idx){
-  state.currentRoomIdx = idx;
   const room = ROOMS[idx];
   $('level-room-title').textContent = room.emoji + '  ' + room.name;
   const list = $('level-list');
   list.innerHTML = '';
-  const prog = state.progress[idx];
-  room.levels.forEach((lvl, lvlIdx)=>{
-    const unlocked = lvlIdx <= prog.levelsCleared;
-    const cleared = lvlIdx < prog.levelsCleared;
+  const roomLevels = LEVELS.filter(l => l.roomIdx === idx);
+  roomLevels.forEach(lvl=>{
+    const unlocked = lvl.num <= state.levelsCleared + 1;
+    const cleared = lvl.num <= state.levelsCleared;
     const row = document.createElement('div');
     row.className = 'level-row' + (unlocked ? '' : ' locked');
+    let tags = [];
+    if(lvl.obstacles>0) tags.push(`🔒×${lvl.obstacles}`);
+    if(lvl.bombs>0) tags.push(`💣×${lvl.bombs}`);
     row.innerHTML = `
       <div>
-        <div class="lname">${cleared ? '✅ ' : ''}Level ${lvlIdx+1}</div>
-        <div class="lmeta">Target ${lvl.target} · ${lvl.moves} moves</div>
+        <div class="lname">${cleared ? '✅ ' : ''}Level ${lvl.levelInRoom}</div>
+        <div class="lmeta">Target ${lvl.target} · ${lvl.moves} moves ${tags.length?'· '+tags.join(' '):''}</div>
       </div>
       <div>${unlocked ? '▶' : '🔒'}</div>
     `;
-    if(unlocked){
-      row.addEventListener('click', ()=> startLevel(idx, lvlIdx));
-    }
+    if(unlocked) row.addEventListener('click', ()=> startLevel(lvl.num));
     list.appendChild(row);
   });
   showScreen('screen-levels');
 }
 
-/* ---------------- GAME SCREEN / BOARD ---------------- */
-function startLevel(roomIdx, lvlIdx){
-  if(state.lives <= 0){
-    $('overlay-nolives').classList.add('active');
-    return;
-  }
-  state.currentRoomIdx = roomIdx;
-  state.currentLevelIdx = lvlIdx;
-  const room = ROOMS[roomIdx];
-  const lvl = room.levels[lvlIdx];
-  scoreCurrent = 0;
-  scoreTarget = lvl.target;
-  movesLeft = lvl.moves;
-  boardLocked = false;
-  selectedCell = null;
+/* ---------------- GAME ---------------- */
+function startLevel(levelNum){
+  if(state.lives <= 0){ $('overlay-nolives').classList.add('active'); return; }
+  currentLevelNum = levelNum;
+  const lvl = LEVELS[levelNum-1];
+  const room = ROOMS[lvl.roomIdx];
 
-  $('game-title').textContent = `${room.name} · Level ${lvlIdx+1}`;
+  scoreCurrent = 0; scoreTarget = lvl.target; movesLeft = lvl.moves;
+  boardLocked = false; selectedCell = null;
+
+  $('game-title').textContent = `${room.name} · Level ${lvl.levelInRoom}`;
   $('moves-left').textContent = movesLeft;
   $('score-current').textContent = scoreCurrent;
   $('score-target').textContent = scoreTarget;
   $('progress-fill').style.width = '0%';
 
-  buildGrid();
-  renderBoard(true);
+  buildGrid(lvl);
+  renderBoard();
   showScreen('screen-game');
 }
 
-function randTile(){
-  return TILE_TYPES[Math.floor(Math.random()*TILE_TYPES.length)];
-}
+function randTile(){ return TILE_TYPES[Math.floor(Math.random()*TILE_TYPES.length)]; }
 
-function buildGrid(){
-  grid = [];
+function buildGrid(lvl){
+  grid = []; lockedGrid = []; bombGrid = [];
   for(let r=0;r<GRID_SIZE;r++){
-    const row = [];
+    const row=[], lrow=[], brow=[];
     for(let c=0;c<GRID_SIZE;c++){
       let t;
-      do { t = randTile(); }
-      while(
-        (c>=2 && row[c-1]===t && row[c-2]===t) ||
-        (r>=2 && grid[r-1][c]===t && grid[r-2][c]===t)
-      );
-      row.push(t);
+      do{ t = randTile(); }
+      while((c>=2 && row[c-1]===t && row[c-2]===t) || (r>=2 && grid[r-1][c]===t && grid[r-2][c]===t));
+      row.push(t); lrow.push(0); brow.push(0);
     }
-    grid.push(row);
+    grid.push(row); lockedGrid.push(lrow); bombGrid.push(brow);
+  }
+  placeOverlays(lockedGrid, lvl.obstacles, 1);
+  placeOverlays(bombGrid, lvl.bombs, lvl.bombTimer, true);
+}
+
+function placeOverlays(targetGrid, count, value, avoidBombOverlap){
+  let placed = 0, attempts = 0;
+  while(placed < count && attempts < 200){
+    attempts++;
+    const r = Math.floor(Math.random()*GRID_SIZE);
+    const c = Math.floor(Math.random()*GRID_SIZE);
+    if(targetGrid[r][c] !== 0) continue;
+    if(avoidBombOverlap && lockedGrid[r][c] !== 0) continue;
+    if(!avoidBombOverlap && bombGrid[r][c] !== 0) continue;
+    targetGrid[r][c] = value;
+    placed++;
   }
 }
 
-function renderBoard(initial){
+function renderBoard(){
   const board = $('board');
   board.style.gridTemplateColumns = `repeat(${GRID_SIZE}, 1fr)`;
   board.style.width = 'min(100%, 420px)';
@@ -507,10 +377,13 @@ function renderBoard(initial){
   for(let r=0;r<GRID_SIZE;r++){
     for(let c=0;c<GRID_SIZE;c++){
       const tile = document.createElement('div');
-      tile.className = 'tile';
+      let cls = 'tile';
+      if(lockedGrid[r][c]>0) cls += ' locked-tile';
+      if(bombGrid[r][c]>0) cls += ' bomb-tile';
+      tile.className = cls;
       tile.textContent = grid[r][c] || '';
-      tile.dataset.r = r;
-      tile.dataset.c = c;
+      if(bombGrid[r][c]>0) tile.dataset.timer = bombGrid[r][c];
+      tile.dataset.r = r; tile.dataset.c = c;
       tile.addEventListener('click', onTileClick);
       board.appendChild(tile);
     }
@@ -519,62 +392,76 @@ function renderBoard(initial){
 
 function onTileClick(e){
   if(boardLocked) return;
-  const r = parseInt(e.currentTarget.dataset.r);
-  const c = parseInt(e.currentTarget.dataset.c);
-
-  if(!selectedCell){
-    selectedCell = {r,c};
-    e.currentTarget.classList.add('selected');
-    return;
-  }
-
-  const dr = Math.abs(selectedCell.r - r);
-  const dc = Math.abs(selectedCell.c - c);
-  const isAdjacent = (dr+dc === 1);
-
+  const r = parseInt(e.currentTarget.dataset.r), c = parseInt(e.currentTarget.dataset.c);
+  if(!selectedCell){ selectedCell={r,c}; e.currentTarget.classList.add('selected'); return; }
+  const dr = Math.abs(selectedCell.r-r), dc = Math.abs(selectedCell.c-c);
+  const isAdjacent = (dr+dc===1);
   clearSelectionVisual();
-
-  if(selectedCell.r===r && selectedCell.c===c){
-    selectedCell = null;
-    return;
-  }
-
-  if(!isAdjacent){
-    selectedCell = {r,c};
-    e.currentTarget.classList.add('selected');
-    return;
-  }
-
+  if(selectedCell.r===r && selectedCell.c===c){ selectedCell=null; return; }
+  if(!isAdjacent){ selectedCell={r,c}; e.currentTarget.classList.add('selected'); return; }
   attemptSwap(selectedCell, {r,c});
   selectedCell = null;
 }
+function clearSelectionVisual(){ document.querySelectorAll('.tile.selected').forEach(t=>t.classList.remove('selected')); }
 
-function clearSelectionVisual(){
-  document.querySelectorAll('.tile.selected').forEach(t=>t.classList.remove('selected'));
+function getTileEl(pos){ return $('board').children[pos.r*GRID_SIZE + pos.c]; }
+function getSwapDirection(a,b){
+  if(b.c > a.c) return 'right';
+  if(b.c < a.c) return 'left';
+  if(b.r > a.r) return 'down';
+  return 'up';
+}
+const OPPOSITE = {right:'left', left:'right', down:'up', up:'down'};
+
+function playSwapArc(a, b, cb){
+  const elA = getTileEl(a), elB = getTileEl(b);
+  const dir = getSwapDirection(a,b);
+  const clsA = 'swap-arc-' + dir;
+  const clsB = 'swap-arc-' + OPPOSITE[dir];
+  elA.style.zIndex = 5; elB.style.zIndex = 5;
+  elA.classList.add(clsA); elB.classList.add(clsB);
+  setTimeout(()=>{
+    elA.classList.remove(clsA); elB.classList.remove(clsB);
+    elA.style.zIndex = ''; elB.style.zIndex = '';
+    cb();
+  }, 300);
 }
 
-function attemptSwap(a, b){
+function attemptSwap(a,b){
   boardLocked = true;
-  swapCells(a,b);
-  renderBoard();
-  const matches = findMatches();
-  if(matches.length === 0){
-    setTimeout(()=>{
-      swapCells(a,b);
-      renderBoard();
-      boardLocked = false;
-    }, 220);
+  playSwapArc(a, b, ()=>{
+    swapCells(grid,a,b);
+    renderBoard();
+    const matches = findMatches();
+    if(matches.length===0){
+      playSwapArc(a, b, ()=>{
+        swapCells(grid,a,b);
+        renderBoard();
+        boardLocked=false;
+      });
+      return;
+    }
+    movesLeft--;
+    $('moves-left').textContent = movesLeft;
+    tickBombs(()=>{ setTimeout(()=> resolveMatches(), 150); });
+  });
+}
+function swapCells(g,a,b){ const tmp=g[a.r][a.c]; g[a.r][a.c]=g[b.r][b.c]; g[b.r][b.c]=tmp; }
+
+function tickBombs(cb){
+  let exploded = false;
+  for(let r=0;r<GRID_SIZE;r++) for(let c=0;c<GRID_SIZE;c++){
+    if(bombGrid[r][c]>0){
+      bombGrid[r][c]--;
+      if(bombGrid[r][c]<=0) exploded = true;
+    }
+  }
+  if(exploded){
+    boardLocked = true;
+    setTimeout(()=> handleLose('bomb'), 200);
     return;
   }
-  movesLeft--;
-  $('moves-left').textContent = movesLeft;
-  setTimeout(()=> resolveMatches(), 150);
-}
-
-function swapCells(a,b){
-  const tmp = grid[a.r][a.c];
-  grid[a.r][a.c] = grid[b.r][b.c];
-  grid[b.r][b.c] = tmp;
+  cb();
 }
 
 function findMatches(){
@@ -582,47 +469,43 @@ function findMatches(){
   for(let r=0;r<GRID_SIZE;r++){
     let runStart=0;
     for(let c=1;c<=GRID_SIZE;c++){
-      if(c<GRID_SIZE && grid[r][c]===grid[r][runStart] && grid[r][c]!==null){
-        continue;
-      }
-      if(c-runStart>=3){
-        for(let k=runStart;k<c;k++) matched.push({r,c:k});
-      }
+      if(c<GRID_SIZE && grid[r][c]===grid[r][runStart] && grid[r][c]!==null){ continue; }
+      if(c-runStart>=3){ for(let k=runStart;k<c;k++) matched.push({r,c:k}); }
       runStart=c;
     }
   }
   for(let c=0;c<GRID_SIZE;c++){
     let runStart=0;
     for(let r=1;r<=GRID_SIZE;r++){
-      if(r<GRID_SIZE && grid[r][c]===grid[runStart][c] && grid[r][c]!==null){
-        continue;
-      }
-      if(r-runStart>=3){
-        for(let k=runStart;k<r;k++) matched.push({r:k,c});
-      }
+      if(r<GRID_SIZE && grid[r][c]===grid[runStart][c] && grid[r][c]!==null){ continue; }
+      if(r-runStart>=3){ for(let k=runStart;k<r;k++) matched.push({r:k,c}); }
       runStart=r;
     }
   }
-  const seen = new Set();
-  return matched.filter(m=>{
-    const key = m.r+'-'+m.c;
-    if(seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  const seen=new Set();
+  return matched.filter(m=>{ const k=m.r+'-'+m.c; if(seen.has(k)) return false; seen.add(k); return true; });
 }
 
 function resolveMatches(){
   const matches = findMatches();
-  if(matches.length===0){
-    boardLocked = false;
-    checkLevelEnd();
-    return;
-  }
-  scoreCurrent += matches.length * 3;
+  if(matches.length===0){ boardLocked=false; checkLevelEnd(); return; }
+
+  let gained = 0;
+  const toClear = [];
+  matches.forEach(m=>{
+    if(lockedGrid[m.r][m.c] > 0){
+      lockedGrid[m.r][m.c] = 0; // crack removed, tile stays this round
+      gained += 1;
+    } else {
+      if(bombGrid[m.r][m.c] > 0){ bombGrid[m.r][m.c] = 0; gained += 5; }
+      toClear.push(m);
+      gained += 3;
+    }
+  });
+  scoreCurrent += gained;
   updateProgressUI();
 
-  matches.forEach(m=>{
+  toClear.forEach(m=>{
     const idx = m.r*GRID_SIZE + m.c;
     const el = $('board').children[idx];
     if(el) el.classList.add('matched');
@@ -642,13 +525,13 @@ function collapseGrid(){
     for(let r=GRID_SIZE-1;r>=0;r--){
       if(grid[r][c]!==null){
         grid[pointer][c]=grid[r][c];
-        if(pointer!==r) grid[r][c]=null;
+        lockedGrid[pointer][c]=lockedGrid[r][c];
+        bombGrid[pointer][c]=bombGrid[r][c];
+        if(pointer!==r){ grid[r][c]=null; lockedGrid[r][c]=0; bombGrid[r][c]=0; }
         pointer--;
       }
     }
-    for(let r=pointer;r>=0;r--){
-      grid[r][c]=randTile();
-    }
+    for(let r=pointer;r>=0;r--){ grid[r][c]=randTile(); lockedGrid[r][c]=0; bombGrid[r][c]=0; }
   }
 }
 
@@ -659,86 +542,65 @@ function updateProgressUI(){
 }
 
 function checkLevelEnd(){
-  if(scoreCurrent >= scoreTarget){
-    handleWin();
-  } else if(movesLeft <= 0){
-    handleLose();
-  }
+  if(scoreCurrent >= scoreTarget) handleWin();
+  else if(movesLeft <= 0) handleLose('moves');
 }
 
 function handleWin(){
   const coinsEarned = Math.round(scoreTarget/2);
   state.coins += coinsEarned;
+  if(currentLevelNum > state.levelsCleared) state.levelsCleared = currentLevelNum;
+  saveState();
   $('win-coins').textContent = coinsEarned;
   $('overlay-win').classList.add('active');
 }
 
-function handleLose(){
+function handleLose(reason){
   state.lives = Math.max(0, state.lives-1);
+  saveState();
   updateStatPills();
+  if(reason === 'bomb'){
+    $('lose-title').textContent = '💣 Bomb went off!';
+    $('lose-text').textContent = "You didn't defuse it in time. Lost a life.";
+  } else {
+    $('lose-title').textContent = 'Out of moves';
+    $('lose-text').textContent = 'Lost a life. Give it another shot?';
+  }
   $('overlay-lose').classList.add('active');
 }
 
-/* ---------------- MODAL HANDLERS ---------------- */
+/* ---------------- MODALS ---------------- */
 $('btn-win-continue').addEventListener('click', ()=>{
   $('overlay-win').classList.remove('active');
-  const roomIdx = state.currentRoomIdx;
-  const lvlIdx = state.currentLevelIdx;
-  const prog = state.progress[roomIdx];
-  if(lvlIdx === prog.levelsCleared){
-    prog.levelsCleared++;
-  }
-  const room = ROOMS[roomIdx];
-  if(prog.levelsCleared >= room.levels.length && !prog.upgraded){
+  const lvl = LEVELS[currentLevelNum-1];
+  const roomIdx = lvl.roomIdx;
+  const roomEnd = roomIdx*LEVELS_PER_ROOM + LEVELS_PER_ROOM;
+  if(currentLevelNum === roomEnd && !state.roomUpgraded[roomIdx]){
     openUpgradePicker(roomIdx);
   } else {
-    showScreen('screen-map');
-    renderMap();
+    showScreen('screen-map'); renderMap();
   }
 });
-
 $('btn-lose-retry').addEventListener('click', ()=>{
   $('overlay-lose').classList.remove('active');
-  if(state.lives<=0){
-    $('overlay-nolives').classList.add('active');
-    return;
-  }
-  startLevel(state.currentRoomIdx, state.currentLevelIdx);
+  if(state.lives<=0){ $('overlay-nolives').classList.add('active'); return; }
+  startLevel(currentLevelNum);
 });
-
-$('btn-lose-back').addEventListener('click', ()=>{
-  $('overlay-lose').classList.remove('active');
-  showScreen('screen-map');
-  renderMap();
-});
-
-$('btn-refill-lives').addEventListener('click', ()=>{
-  state.lives = 5;
-  updateStatPills();
-  $('overlay-nolives').classList.remove('active');
-  toast('Lives refilled (demo)');
-});
+$('btn-lose-back').addEventListener('click', ()=>{ $('overlay-lose').classList.remove('active'); showScreen('screen-map'); renderMap(); });
+$('btn-refill-lives').addEventListener('click', ()=>{ state.lives=5; saveState(); updateStatPills(); $('overlay-nolives').classList.remove('active'); toast('Lives refilled (demo)'); });
 
 function openUpgradePicker(roomIdx){
   const room = ROOMS[roomIdx];
   $('upgrade-title').textContent = `${room.name} unlocked!`;
-  const wrap = $('upgrade-options');
-  wrap.innerHTML = '';
+  const wrap = $('upgrade-options'); wrap.innerHTML='';
   room.upgrades.forEach(opt=>{
-    const el = document.createElement('div');
-    el.className = 'upgrade-opt';
-    el.innerHTML = `
-      <div class="oe">${opt.emoji}</div>
-      <div>
-        <div class="ot">${opt.name}</div>
-        <div class="oc">Tap to install</div>
-      </div>
-    `;
+    const el = document.createElement('div'); el.className='upgrade-opt';
+    el.innerHTML = `<div class="oe">${opt.emoji}</div><div><div class="ot">${opt.name}</div></div>`;
     el.addEventListener('click', ()=>{
-      state.progress[roomIdx].upgraded = true;
+      state.roomUpgraded[roomIdx] = true;
+      saveState();
       $('overlay-upgrade').classList.remove('active');
-      showScreen('screen-map');
-      renderMap();
+      showScreen('screen-map'); renderMap();
       toast(`${opt.name} installed!`);
     });
     wrap.appendChild(el);
@@ -747,13 +609,15 @@ function openUpgradePicker(roomIdx){
 }
 
 /* ---------------- NAV ---------------- */
-$('btn-back-map').addEventListener('click', ()=>{
-  showScreen('screen-map');
-  renderMap();
-});
-$('btn-back-levels').addEventListener('click', ()=>{
-  showScreen('screen-levels');
-});
+$('btn-back-map').addEventListener('click', ()=>{ showScreen('screen-map'); renderMap(); });
+$('btn-back-levels').addEventListener('click', ()=>{ showScreen('screen-levels'); });
+
+/* ---------------- SERVICE WORKER (offline support) ---------------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
 
 /* ---------------- INIT ---------------- */
 renderMap();
